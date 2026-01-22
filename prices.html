@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Material Prices - Local Area</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h1>🧱 Local Construction Material Prices</h1>
+    <p>Serving Kozhikode & nearby areas (100 km radius)</p>
+
+    <hr>
+
+    <!-- NAVIGATION BAR -->
+    
+    <nav>
+    <a href="house_platform.html">Home</a> |
+    <a href="prices.html">Material Prices</a> |
+    <a href="shops.html">Material Shops</a> |
+    <a href="steps.html">Construction Steps</a> |
+    <a href="contractors.html">Engineers & Contractors</a>
+
+
+    </nav>
+
+    <hr>
+<input
+  type="text"
+  id="materialSearch"
+  placeholder="Search material, brand, location..."
+  style="width:100%; padding:8px; margin-bottom:10px;"
+>
+
+
+
+    <!-- MATERIALS TABLE (DYNAMIC) -->
+    <table id="materials-table">
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Brand</th>
+                <th>Unit</th>
+                <th>Price (₹)</th>
+                <th>Location</th>
+                <th>Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be added by JavaScript -->
+        </tbody>
+    </table>
+
+<p class="note">Prices are indicative and updated from local suppliers.</p>
+
+<p class="note">
+    Looking for shops that sell these materials?
+    <a href="shops.html">View material shops</a>
+</p>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script>
+const materialsURL = "https://opensheet.elk.sh/1I38wlPQtC7lYWIwSicDJ_EplYMQNQtbM--MUJwPx9Jk/Materials";
+let allMaterials = [];
+
+fetch(materialsURL)
+  .then(res => res.json())
+  .then(data => {
+    if (!Array.isArray(data)) return;
+    allMaterials = data;
+    renderMaterials(allMaterials);
+  });
+
+function renderMaterials(list) {
+  const tbody = document.querySelector("#materials-table tbody");
+  tbody.innerHTML = "";
+
+  list.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${item.material}</td>
+      <td>${item.brand}</td>
+      <td>${item.unit}</td>
+      <td>${item.price}</td>
+      <td>${item.location}</td>
+      <td>${item.updated}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+document.getElementById("materialSearch").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+
+  const filtered = allMaterials.filter(m =>
+    m.material.toLowerCase().includes(q) ||
+    m.brand.toLowerCase().includes(q) ||
+    m.location.toLowerCase().includes(q) ||
+    m.shop_name.toLowerCase().includes(q)
+  );
+
+  renderMaterials(filtered);
+});
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Engineers & Contractors</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h1>👷 Engineers & Contractors</h1>
+    <p>Trusted local professionals for house construction</p>
+
+    <hr>
+
+    <nav>
+    <a href="house_platform.html">Home</a> |
+    <a href="prices.html">Material Prices</a> |
+    <a href="shops.html">Material Shops</a> |
+    <a href="steps.html">Construction Steps</a> |
+    <a href="contractors.html">Engineers & Contractors</a>
+</nav>
+
+<input
+  type="text"
+  id="contractorSearch"
+  placeholder="Search by name, role, area..."
+  style="width:100%; padding:8px; margin-bottom:15px;"
+>
+
+
+    <hr>
+
+    <!-- DYNAMIC CONTRACTOR LIST -->
+    <div id="contractor-list"></div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+const sheetURL = "https://opensheet.elk.sh/1I38wlPQtC7lYWIwSicDJ_EplYMQNQtbM--MUJwPx9Jk/Contractors";
+let allContractors = [];
+
+fetch(sheetURL)
+  .then(res => res.json())
+  .then(data => {
+    if (!Array.isArray(data)) return;
+    allContractors = data;
+    renderContractors(allContractors);
+  });
+
+function renderContractors(list) {
+  const container = document.getElementById("contractor-list");
+  container.innerHTML = "";
+
+  list.forEach(person => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${person.name}</h3>
+      <p><strong>Role:</strong> ${person.role}</p>
+      <p><strong>Experience:</strong> ${person.experience} years</p>
+      <p><strong>Area:</strong> ${person.area}</p>
+      <p><strong>Phone:</strong> <a href="tel:${person.phone}">${person.phone}</a></p>
+
+      <a class="whatsapp-btn"
+         href="https://wa.me/${person.whatsapp}?text=Hello%20I%20found%20your%20profile%20on%20the%20local%20house%20construction%20platform."
+         target="_blank">
+         💬 Chat on WhatsApp
+      </a>
+    `;
+    container.appendChild(card);
+  });
+}
+
+document.getElementById("contractorSearch").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+
+  const filtered = allContractors.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    p.role.toLowerCase().includes(q) ||
+    p.area.toLowerCase().includes(q)
+  );
+
+  renderContractors(filtered);
+});
+</script>
+
+
+</body>
+</html>

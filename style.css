@@ -1,0 +1,138 @@
+/* ---------- Global styles ---------- */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7fa;
+    color: #333;
+}
+
+/* ---------- Page container ---------- */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* ---------- Headings ---------- */
+h1 {
+    color: #1f2937;
+}
+
+h2 {
+    color: #2563eb;
+    margin-top: 30px;
+}
+
+/* ---------- Navigation ---------- */
+nav {
+    background-color: #1f2937;
+    padding: 10px;
+    margin: 20px 0;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Lists ---------- */
+ul {
+    line-height: 1.8;
+}
+
+/* ---------- Tables ---------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background-color: #2563eb;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* ---------- Footer note ---------- */
+.note {
+    margin-top: 15px;
+    font-style: italic;
+    color: #555;
+}
+
+button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+/* Contractor cards */
+.card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #1f2937;
+}
+/* WhatsApp Button */
+.whatsapp-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background-color: #25D366;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1ebe5d;
+}
+
+/* Shop buttons */
+.shop-btn {
+    padding: 10px 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 6px;
+    background-color: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.shop-btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* ACTIVE SHOP BUTTON */
+.shop-btn.active {
+    background-color: #16a34a; /* green */
+}

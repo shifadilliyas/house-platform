@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Construction Steps</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body>
+<div class="container">
+
+    <h1>🏗️ House Construction Steps</h1>
+    <p>Step-by-step guide for building a house</p>
+
+    <hr>
+
+    <!-- NAVIGATION BAR -->
+   <nav>
+    <a href="house_platform.html">Home</a> |
+    <a href="prices.html">Material Prices</a> |
+    <a href="shops.html">Material Shops</a> |
+    <a href="steps.html">Construction Steps</a> |
+    <a href="contractors.html">Engineers & Contractors</a>
+</nav>
+
+
+    <hr>
+
+    <h2>1️⃣ Foundation</h2>
+    <ul>
+        <li>Materials: Cement, Steel, Sand, Aggregate</li>
+        <li>Cost: 15–20%</li>
+    </ul>
+
+    <h2>2️⃣ Structure (Pillars, Beams, Slab)</h2>
+    <ul>
+        <li>Materials: Cement, Steel, Bricks</li>
+        <li>Cost: 30–35%</li>
+    </ul>
+
+    <h2>3️⃣ Roofing</h2>
+    <ul>
+        <li>Materials: Cement, Steel</li>
+        <li>Cost: ~15%</li>
+    </ul>
+
+    <h2>4️⃣ Electrical & Plumbing</h2>
+    <ul>
+        <li>Materials: Wires, Pipes, Switches</li>
+        <li>Cost: ~10%</li>
+    </ul>
+
+    <h2>5️⃣ Finishing</h2>
+    <ul>
+        <li>Materials: Tiles, Paint, Lights</li>
+        <li>Cost: ~20%</li>
+    </ul>
+
+<hr>
+
+<h2>💰 Construction Cost Calculator</h2>
+
+<label>Enter Total Budget (₹):</label><br><br>
+<input type="number" id="totalCost" placeholder="Example: 4000000">
+<button onclick="calculateCost()">Calculate</button>
+
+<div id="result" style="margin-top:20px;"></div>
+
+
+</div>
+<script>
+function calculateCost() {
+    let total = document.getElementById("totalCost").value;
+
+    if (total === "" || total <= 0) {
+        alert("Please enter a valid amount");
+        return;
+    }
+
+    let foundation = total * 0.18;
+    let structure = total * 0.32;
+    let roofing = total * 0.15;
+    let electrical = total * 0.10;
+    let finishing = total * 0.20;
+
+    document.getElementById("result").innerHTML = `
+        <h3>Estimated Cost Breakdown</h3>
+        <ul>
+            <li>Foundation: ₹${foundation.toLocaleString()}</li>
+            <li>Structure: ₹${structure.toLocaleString()}</li>
+            <li>Roofing: ₹${roofing.toLocaleString()}</li>
+            <li>Electrical & Plumbing: ₹${electrical.toLocaleString()}</li>
+            <li>Finishing: ₹${finishing.toLocaleString()}</li>
+        </ul>
+    `;
+}
+</script>
+
+</body>
+</html>

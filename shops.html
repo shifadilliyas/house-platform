@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Material Shops</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h1>🏪 Material Shops</h1>
+    <p>Click a shop to view their material prices</p>
+
+    <hr>
+
+    <nav>
+        <a href="house_platform.html">Home</a> |
+        <a href="prices.html">Material Prices</a> |
+        <a href="shops.html">Material Shops</a> |
+        <a href="steps.html">Construction Steps</a> |
+        <a href="contractors.html">Engineers & Contractors</a>
+    </nav>
+
+    <hr>
+
+    <!-- SEARCH SHOP -->
+    <input
+      type="text"
+      id="shopSearch"
+      placeholder="Search shop name..."
+      style="width:100%; padding:8px; margin-bottom:10px;"
+    >
+
+    <!-- SHOP BUTTONS -->
+    <div id="shop-buttons"></div>
+
+    <hr>
+
+    <!-- MATERIALS TABLE -->
+    <hr>
+
+<!-- SELECTED SHOP DETAILS -->
+<div id="shop-details"></div>
+
+<!-- MATERIALS TABLE -->
+<h2 id="selected-shop-title">Select a shop</h2>
+
+
+    <table id="materials-table">
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Brand</th>
+                <th>Unit</th>
+                <th>Price (₹)</th>
+                <th>Updated</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<script>
+let allShops = [];
+let materialsData = [];
+
+const sheetId = "1I38wlPQtC7lYWIwSicDJ_EplYMQNQtbM--MUJwPx9Jk";
+const shopsURL = `https://opensheet.elk.sh/${sheetId}/Shops`;
+const materialsURL = `https://opensheet.elk.sh/${sheetId}/Materials`;
+
+/* LOAD ALL MATERIALS */
+fetch(materialsURL)
+  .then(res => res.json())
+  .then(data => {
+    if (Array.isArray(data)) {
+      materialsData = data;
+    }
+  });
+
+/* LOAD SHOPS */
+fetch(shopsURL)
+  .then(res => res.json())
+  .then(data => {
+    if (!Array.isArray(data)) return;
+    allShops = data;
+    renderShopButtons(allShops);
+  });
+
+/* RENDER SHOP BUTTONS */
+function renderShopButtons(shops) {
+  const container = document.getElementById("shop-buttons");
+  container.innerHTML = "";
+
+  shops.forEach(shop => {
+    const btn = document.createElement("button");
+    btn.textContent = shop.shop_name;
+    btn.className = "shop-btn";
+
+    btn.onclick = () => {
+      // remove active class from all buttons
+      document
+        .querySelectorAll(".shop-btn")
+        .forEach(b => b.classList.remove("active"));
+
+      // set active button
+      btn.classList.add("active");
+
+      showShopMaterials(shop);
+    };
+
+    container.appendChild(btn);
+  });
+}
+
+/* SEARCH SHOPS */
+document.getElementById("shopSearch").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+  const filtered = allShops.filter(s =>
+    s.shop_name.toLowerCase().includes(q)
+  );
+  renderShopButtons(filtered);
+});
+
+/* SHOW MATERIALS FOR SELECTED SHOP */
+function showShopMaterials(shop) {
+
+    // SHOP DETAILS (NEW PART)
+    document.getElementById("shop-details").innerHTML = `
+        <div class="card">
+            <h3>${shop.shop_name}</h3>
+            <p><strong>Area:</strong> ${shop.area || "Not specified"}</p>
+            <p><strong>Phone:</strong>
+                <a href="tel:${shop.phone}">${shop.phone}</a>
+            </p>
+
+            <a class="whatsapp-btn"
+               href="https://wa.me/${shop.whatsapp}?text=Hello%20I%20found%20your%20shop%20on%20the%20local%20house%20construction%20platform.%20I%20would%20like%20to%20enquire%20about%20materials."
+               target="_blank">
+               💬 Chat on WhatsApp
+            </a>
+        </div>
+    `;
+
+    // MATERIALS TABLE (OLD PART, STILL NEEDED)
+    const tbody = document.querySelector("#materials-table tbody");
+    tbody.innerHTML = "";
+
+    document.getElementById("selected-shop-title").textContent =
+        `Materials from ${shop.shop_name}`;
+
+    const filtered = materialsData.filter(
+        item => item.shop_name === shop.shop_name
+    );
+
+    if (filtered.length === 0) {
+        tbody.innerHTML =
+          `<tr><td colspan="5">No materials listed.</td></tr>`;
+        return;
+    }
+
+    filtered.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${item.material}</td>
+            <td>${item.brand}</td>
+            <td>${item.unit}</td>
+            <td>${item.price}</td>
+            <td>${item.updated}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+</script>
+
+</body>
+</html>
